@@ -2,14 +2,13 @@
 
 # Take a directory of images and create thumbnails.
 #
-# The thumbnails are squares from the center of images as opposed to 
+# The thumbnails are squares from the center of images as opposed to
 # shrinking the image
 #
-# See http://www.imagemagick.org/Usage/thumbnails/ heading "Cut the 
-# Thumbnail to Fit"
+# See http://www.imagemagick.org/Usage/resize/#resize
 
 # Arguments
-# $1 - path to the images 
+# $1 - path to the images
 # $2 - new suffix
 # $3 - new size
 
@@ -38,7 +37,7 @@ if [ "$3" == "" ]; then
     echo You must supply a size for the new images to be in the third argument
     echo $usage
     exit
-else 
+else
     size=$3
     dim_str="$size"x"$size" # 200x200 or whatever
 fi
@@ -52,13 +51,6 @@ for img in $path/*; do
     extension="${filename##*.}"
     new_name=$path/"${filename%.*}$suffix"
 
-#    echo Path:      $path
-#    echo File:      $img
-#    echo Filename:  $filename
-#    echo Extension: $extension
-#    echo New name:  $new_name
-
-    # convert -define jpeg:size=200x200 5.jpg -thumbnail 200x200^ -gravity center -extent 200x200 5.th.jpg
-    echo convert -define jpeg:size=$dim_str $img -thumbnail $dim_str^ -gravity center -extent $dim_str $new_name
-    convert -define jpeg:size=$dim_str $img -thumbnail $dim_str^ -gravity center -extent $dim_str $new_name
+    echo convert $img -resize $dim_str $new_name
+    convert $img -resize $dim_str $new_name
 done
