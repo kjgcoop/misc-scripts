@@ -43,6 +43,10 @@ else
 fi
 
 for img in $path/*; do
+    if [ -d $path/$img ]; then
+        continue;
+    fi
+
     # Creating the new image name involves stripping the extension. There's
     # got to be a more elegant way, but this is what the inimitable Stack
     # Overflow provided:
