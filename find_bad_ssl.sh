@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Written by KJ Coop, https://kjcoop.com
+# 2020-12-18
+
 # Find sites that don't have valid global SSL certs. It can go off a list of
 # domains in a file specified below, or domains can be itemized at the command
 # line
@@ -44,7 +47,6 @@ for tld in $list; do
     # Check if the certificate is working.
     curl -Ls --head --request GET https://$tld -w %{time_total} > $tmp_tld_file
     exe_time_tld=`tail -n 1 $tmp_tld_file`
-    echo "Execution time rounded: "
 
     if grep "200 OK" $tmp_tld_file > /dev/null; then
 
@@ -70,7 +72,7 @@ for tld in $list; do
 
             # Checked multiple domain names.
             else
-                echo $num_prob. Subdomain problem: https://fake.$tld "   ($exe_time)"
+                echo $num_prob. Subdomain problem: https://fake.$tld "   ($exe_time_tld)"
             fi
             ((num_prob++))
         fi
@@ -82,11 +84,11 @@ for tld in $list; do
 
         # If we're just checking one site, then don't list the number.
         if [ "$is_one" -eq 1 ]; then
-            echo Problem: https://$tld "   ($exe_time)"
+            echo Problem: https://$tld "   ($exe_time_tld)"
 
         # If we're listing multiple sites, do give a number
         else
-            echo $num_prob. Problem: https://$tld "   ($exe_time)"
+            echo $num_prob. Problem: https://$tld "   ($exe_time_tld)"
         fi
 
         ((num_prob++))
