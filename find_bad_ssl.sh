@@ -21,22 +21,47 @@ num_prob=1
 tmp_tld_file=/tmp/$0_tld_`date +%Y%m%d%H%M%s%N`
 tmp_subd_file=/tmp/$0_subd_`date +%Y%m%d%H%M%s%N`
 
+# If one or more arguments have been sent...
 if [ "$#" -gt 0 ]; then
+
+    # The first one should tell us whether or not domains have been itemized
+    # Check if only one has been itemized. If so, display it differently.
     if [ "$#" -eq 1 ]; then
         is_one=1
     else
         is_one=0
     fi
 
+    # Yes it's been itemized
     is_itemized=1
+
+    # Use all the arguments as the list of domains
     list="$@"
+
+    # Don't skip any
     skipped=''
 else
+
+    # If we're going for the hard-coded list of files, barf it not found.
+    if [ ! -f $file ]; then
+        echo ERROR: Hard-coded list of domain names not found
+        echo Usage: $0 [list of domains] or hard-code a path listing domains.
+        exit
+    fi
+
+    # Just because we didn't itemize doesn't mean there's more than one domain.
     is_one=`wc -l < $file`
 
+    # Not itemized - to grab from list
     is_itemized=0
-    # grep out hash signs so we can comment lines out.
+
+    # grep out hash signs so we can comment lines out. This also destroys the
+    # ability to leave comments after domain names such as: 
+    #     thing.tld # redirect to whatever.tld
+
+    # Get all the items in the file
     list=`grep -v '#' $file`
+
     # keep track of what we skipped
     skipped=`grep '#' $file`
 
