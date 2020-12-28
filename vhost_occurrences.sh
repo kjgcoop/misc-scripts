@@ -16,12 +16,17 @@ fi
 for tld in $sites; do
     files=`grep -lr $tld $base`
 
-    echo $tld | tr [a-z] [A-Z]  # EXAMPLE.COM
-    echo $files  | tr " " "\n"  # List of files on newlines; @todo prefix with *
+    if [ "$files" == "" ]; then
+        echo $tld not found
+    else
+        echo $tld | tr [a-z] [A-Z]  # EXAMPLE.COM
+        echo $files  | tr " " "\n"  # List of files on newlines; @todo prefix with *
 
-    # Minimize wall of text
-    echo ''
-    echo ''
+        # Minimize wall of text
+        echo ''
+        echo ''
+    fi
+
 done
 
 
