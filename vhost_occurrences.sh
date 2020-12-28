@@ -7,7 +7,11 @@
 
 base='/etc/apache2'
 
-sites=`~/bin/find_vhosts.sh | uniq | sort`
+if [ "$1" == "" ]; then
+    sites=`~/bin/find_vhosts.sh | uniq | sort`
+else
+    sites="$1"
+fi
 
 for tld in $sites; do
     files=`grep -lr $tld $base`
