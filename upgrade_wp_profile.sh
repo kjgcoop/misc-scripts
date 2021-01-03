@@ -32,7 +32,7 @@ echo "To install: "
 echo "    1. Download from the URL above."
 echo "    2. Unzip it with:"
 echo "         unzip [whatever]"
-echo "    3. Put the new directory in wordpress/wo-content/plugins/"
+echo "    3. Put the new directory in wordpress/wp-content/plugins/"
 
 echo ''
 
